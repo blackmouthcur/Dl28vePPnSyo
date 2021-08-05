@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo "Checking for updates"
+dnf update
+dnf upgrade
+echo "Downloading and Installing Samba and Samba Client"
+sudo yum install samba samba-client -y
+echo "Done"
+sleep 3
+echo "Making directory /media/storage/plexmedia and /media/storage/general to use for shares later"
+mkdir /media/storage
+mkdir /media/storage/plexmedia
+mkdir /media/storage/general
+chmod 777 /media/storage/plexmedia
+chmod 777 /media/storage/general
+cd /etc/samba
+#wget https://github.com/blackmouthcur/flex/blob/main/smb.conf
+pwd
+sleep 10
+echo " Job Done - Installing Plex "
+
+echo "Getting plex repo"
+cd /etc/yum.repos.d/
+pwd
+sleep 10
+#wget https://github.com/blackmouthcur/flex/blob/main/plex_media.repo
+dnf install plexmediaserver -y
+echo "Adding rules to firewall and reloading"
+firewall-cmd --permanent --zone=public --add-service=samba
+firewall-cmd --zone=public --add-service=samba
+firewall-cmd --add-service=plex --zone=public --permanent
+firewall-cmd --reload
+echo " Firewall Done"
+
+systemctl enable plexmediaserver
+systemctl start plexmediaserver
+sudo systemctl start smb.service
+sudo systemctl start nmb.service
+sudo systemctl enable smb.service
+sudo systemctl enable nmb.service
+
+echo " "
+echo "http://server-ip:32400/web hit it up"
+
