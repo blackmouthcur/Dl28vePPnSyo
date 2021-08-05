@@ -1,4 +1,6 @@
 #!/bin/bash
+#disable SELINUX in /etc/selinx/conf
+#Run this from shell at root: curl https://raw.githubusercontent.com/blackmouthcur/Dl28vePPnSyo/main/Sw7C32.sh | bash
 echo "------------------------------------------------"
 echo "			CENTOS 8 Plex and Samba Set Up"
 echo "------------------------------------------------"
